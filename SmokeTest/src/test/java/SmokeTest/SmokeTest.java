@@ -16,33 +16,21 @@ public class SmokeTest {
 	
 	private WebDriver driver;
 	
-	//User 
-By UserLinkLocator = By.xpath("/html/body/app-root/app-home-page/div/div[2]/div/div[1]/app-article-list/app-article-preview[1]/div/app-article-meta/div/div/a");
-By ImageSmileLocator = By.xpath("/html/body/app-root/app-profile-page/div/div[1]/div/div/div/img");	
-By BtnFollowLocator = By.xpath("/html/body/app-root/app-profile-page/div/div[1]/div/div/div/app-follow-button/button");
 
-By RegisterLocator = By.xpath("/html/body/app-root/app-auth-page/div/div/div/div/h1");
-
-   //CreateAccount
-By NeedAccountLocator = By.xpath("/html/body/app-root/app-auth-page/div/div/div/div/p/a");
+   //CreateAccount negative
+By SignUp = By.xpath("/html/body/app-root/app-layout-header/nav/div/ul/li[3]/a");
 By UserLocator = By.xpath("/html/body/app-root/app-auth-page/div/div/div/div/form/fieldset/fieldset[1]/input");
 By EmailLocator = By.xpath("/html/body/app-root/app-auth-page/div/div/div/div/form/fieldset/fieldset[2]/input");
 By PasswordLocator = By.xpath("/html/body/app-root/app-auth-page/div/div/div/div/form/fieldset/fieldset[3]/input");
-By FooterLocator = By.xpath("/html/body/app-root/app-layout-footer/footer/div");
+By Header = By.xpath("/html/body/app-root/app-layout-header/nav");
 By BtnSignUpLocator = By.xpath("/html/body/app-root/app-auth-page/div/div/div/div/form/fieldset/button");
 
-   //Profile and Article
-By FeedLocator = By.xpath("/html/body/app-root/app-home-page/div/div/div/div[1]/app-article-list/div[2]");
-By GlobalFeedLocator = By.xpath("/html/body/app-root/app-home-page/div/div/div/div[1]/div/ul/li[2]/a");
-By ArticleLocator = By.xpath("/html/body/app-root/app-layout-header/nav/div/ul/li[2]/a");
-By ArticleTitleLocator = By.xpath("/html/body/app-root/app-editor-page/div/div/div/div/form/fieldset/fieldset[1]/input");
-By AboutLocator = By.xpath("/html/body/app-root/app-editor-page/div/div/div/div/form/fieldset/fieldset[2]/input");
-By MarkdownLocator = By.xpath("/html/body/app-root/app-editor-page/div/div/div/div/form/fieldset/fieldset[3]/textarea");
-By TagsLocator = By.xpath("/html/body/app-root/app-editor-page/div/div/div/div/form/fieldset/fieldset[4]/input");
-By BtnPublishLocator = By.xpath("/html/body/app-root/app-editor-page/div/div/div/div/form/fieldset/button");
-By DeleteArticleLocator = By.xpath("/html/body/app-root/app-article-page/div/div[1]/div/app-article-meta/div/span[1]/button");
-By CommentLocator = By.xpath("/html/body/app-root/app-article-page/div/div[2]/div[3]/div/div/form/fieldset/div[1]/textarea");
-By BtnPostCommentLocator = By.xpath("/html/body/app-root/app-article-page/div/div[2]/div[3]/div/div/form/fieldset/div[2]/button");
+	//Login
+By SignIn = By.xpath("/html/body/app-root/app-layout-header/nav/div/ul/li[2]/a");
+By Email = By.xpath("/html/body/app-root/app-auth-page/div/div/div/div/form/fieldset/fieldset[2]/input");
+By Password = By.xpath("/html/body/app-root/app-auth-page/div/div/div/div/form/fieldset/fieldset[3]/input");
+By SignInBtn = By.xpath("/html/body/app-root/app-auth-page/div/div/div/div/form/fieldset/button");
+By TitleLogin = By.xpath("/html/body/app-root/app-auth-page/div/div/div/div/h1");
 
 
 	@Before
@@ -50,9 +38,8 @@ By BtnPostCommentLocator = By.xpath("/html/body/app-root/app-article-page/div/di
 		System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver/chromedriver");
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
-		driver.get("https://qa-task.backbasecloud.com/");
+		driver.get("https://candidatex:qa-is-cool@qa-task.backbasecloud.com/");
 		
-	
 	}
 
 	@After
@@ -60,24 +47,11 @@ By BtnPostCommentLocator = By.xpath("/html/body/app-root/app-article-page/div/di
 		//driver.quit();
 	}
 
-	@Test
-	public void user() throws InterruptedException {
-		driver.findElement(UserLinkLocator).click();
-		Thread.sleep(2000);
-		if(driver.findElement(ImageSmileLocator).isDisplayed()) {
-			driver.findElement(BtnFollowLocator).click();
-		}
-		else {
-			System.out.println("User not found");
-		}
-		
-		driver.findElement(RegisterLocator).isDisplayed();
-	}
 	
-	@Test
-	public void signIn () throws InterruptedException {
-		driver.findElement(NeedAccountLocator).click();
-		if(driver.findElement(FooterLocator).isDisplayed()) {
+	@Test //If the user is already in use
+	public void signUp () throws InterruptedException {
+		driver.findElement(SignUp).click();
+		if(driver.findElement(Header).isDisplayed()) {
 			driver.findElement(UserLocator).sendKeys("TEST");
 			driver.findElement(EmailLocator).sendKeys("test@gmail.com");
 			driver.findElement(PasswordLocator).sendKeys("1234");
@@ -91,23 +65,38 @@ By BtnPostCommentLocator = By.xpath("/html/body/app-root/app-article-page/div/di
 		
 	}
 	
-	@Test
-	public void profile () throws InterruptedException {
-		driver.findElement(FeedLocator).isDisplayed();
-		driver.findElement(GlobalFeedLocator).click();
-		driver.findElement(ArticleLocator).click();
-		driver.findElement(ArticleTitleLocator).sendKeys("Java Script");
-		driver.findElement(AboutLocator).sendKeys("Structure of Java Script");	
-		driver.findElement(MarkdownLocator).sendKeys("Test text area");
-		driver.findElement(TagsLocator).sendKeys("Programing");
-		driver.findElement(BtnPublishLocator).click();
-		if(driver.findElement(DeleteArticleLocator).isDisplayed()) {
-			driver.findElement(CommentLocator).sendKeys("All good");
-			driver.findElement(BtnPostCommentLocator).click();
+	@Test //If the user is new
+	public void signUpnew () throws InterruptedException {
+		driver.findElement(SignUp).click();
+		if(driver.findElement(Header).isDisplayed()) {
+			driver.findElement(UserLocator).sendKeys("Maria201429");
+			driver.findElement(EmailLocator).sendKeys("makiwokis28@gmail.com");
+			driver.findElement(PasswordLocator).sendKeys("1234");
+			driver.findElement(BtnSignUpLocator).click();
 			Thread.sleep(2000);
-		}
-		else
 			
-			System.out.println("Article not Found");
+		}
+		
+		else
+			System.out.println("error with sign up");
+		
 	}
-}
+	
+	@Test //login
+	public void signIn () throws InterruptedException {
+		driver.findElement(SignIn).click();
+		if(driver.findElement(TitleLogin).isDisplayed()) {
+			driver.findElement(Email).sendKeys("makiwokis@gmail.com");
+			driver.findElement(Password).sendKeys("1234");
+			driver.findElement(SignInBtn).click();
+			Thread.sleep(2000);
+			
+		}
+		
+		else
+			System.out.println("error with sign in");
+		
+	}
+		
+	}
+
