@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -48,7 +49,7 @@ By TitleLogin = By.xpath("/html/body/app-root/app-auth-page/div/div/div/div/h1")
 	}
 
 	
-	@Test //If the user is already in use
+	@Test //If the user is already in use negative
 	public void signUp () throws InterruptedException {
 		driver.findElement(SignUp).click();
 		if(driver.findElement(Header).isDisplayed()) {
@@ -57,6 +58,7 @@ By TitleLogin = By.xpath("/html/body/app-root/app-auth-page/div/div/div/div/h1")
 			driver.findElement(PasswordLocator).sendKeys("1234");
 			driver.findElement(BtnSignUpLocator).click();
 			Thread.sleep(2000);
+			assertEquals("Conduit",driver.getTitle());
 			
 		}
 		
@@ -69,10 +71,11 @@ By TitleLogin = By.xpath("/html/body/app-root/app-auth-page/div/div/div/div/h1")
 	public void signUpnew () throws InterruptedException {
 		driver.findElement(SignUp).click();
 		if(driver.findElement(Header).isDisplayed()) {
-			driver.findElement(UserLocator).sendKeys("Maria201429");
-			driver.findElement(EmailLocator).sendKeys("makiwokis28@gmail.com");
+			driver.findElement(UserLocator).sendKeys("Maria2014290");
+			driver.findElement(EmailLocator).sendKeys("makiwokis280@gmail.com");
 			driver.findElement(PasswordLocator).sendKeys("1234");
 			driver.findElement(BtnSignUpLocator).click();
+			assertEquals("https://qa-task.backbasecloud.com/register",driver.getCurrentUrl());
 			Thread.sleep(2000);
 			
 		}
@@ -90,6 +93,7 @@ By TitleLogin = By.xpath("/html/body/app-root/app-auth-page/div/div/div/div/h1")
 			driver.findElement(Password).sendKeys("1234");
 			driver.findElement(SignInBtn).click();
 			Thread.sleep(2000);
+			assertEquals("https://candidatex:qa-is-cool@qa-task.backbasecloud.com/",driver.getCurrentUrl());
 			
 		}
 		
